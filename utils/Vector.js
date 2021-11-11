@@ -100,6 +100,7 @@ Vector.prototype.limit = function(max) {
         this.normalize();
         this.mult(max);
     }
+    return this;
 }
 
 // move vector compared to the x and y passed in args
@@ -152,6 +153,7 @@ Vector.prototype.mult = function(factor) {
     this.x *= factor;
     this.y *= factor;
     this.z *= factor;
+    return this;
 }
 
 // divide a vector by a factor ( to scale the vector)
@@ -287,12 +289,18 @@ Vector.prototype.arrow = function(ctx) {
     ctx.stroke();
 }
 
-Vector.prototype.arrowFrom = function(ctx, origin) {
+Vector.prototype.arrowFrom = function(ctx, origin, color) {
+    if(color != null) {
+        ctx.save();
+        ctx.fillStyle = color;
+        ctx.strokeStyle = color;
+    }
     ctx.beginPath();
     ctx.moveTo(origin.x, origin.y);
-    //ctx.lineTo(this.x + origin.x, this.y + origin.y);
-    // CORRECTION
     ctx.lineTo(this.x, this.y);
     ctx.closePath();
     ctx.stroke();
+    if(color != null) {
+        ctx.restore()
+    }
 }
